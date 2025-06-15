@@ -10,6 +10,7 @@ const TranslatorApp = ({ onClose }) => {
   const [translatedText, setTranslatedText] = useState('')
   const [charCount, setCharCount] = useState(0)
   const [isTranslating, setIsTranslating] = useState(false)
+  const [error, setError] = useState('')
   const maxChars = 500
   const dropdownRef = useRef(null)
 
@@ -42,6 +43,7 @@ const TranslatorApp = ({ onClose }) => {
       setSelectedLanguageTo(languageCode)
     }
     setShowLanguages(false)
+    setError('') // Clear any previous errors
   }
 
   const handleSwapLanguages = () => {
@@ -53,6 +55,7 @@ const TranslatorApp = ({ onClose }) => {
     setInputText(translatedText)
     setTranslatedText(tempText)
     setCharCount(translatedText.length)
+    setError('')
   }
 
   const handleInputChange = (e) => {
@@ -60,11 +63,101 @@ const TranslatorApp = ({ onClose }) => {
     if (value.length <= maxChars) {
       setInputText(value)
       setCharCount(value.length)
+      setError('')
       
       if (translatedText) {
         setTranslatedText('')
       }
     }
+  }
+
+  // Convert language codes to MyMemory API format
+  const convertLanguageCode = (code) => {
+    // MyMemory API uses different format for some languages
+    const languageMap = {
+      'en-GB': 'en',
+      'es-ES': 'es',
+      'fr-FR': 'fr',
+      'de-DE': 'de',
+      'it-IT': 'it',
+      'pt-PT': 'pt',
+      'ru-RU': 'ru',
+      'ja-JP': 'ja',
+      'ko-KR': 'ko',
+      'zh-CN': 'zh',
+      'ar-SA': 'ar',
+      'hi-IN': 'hi',
+      'bn-IN': 'bn',
+      'ur-PK': 'ur',
+      'fa-IR': 'fa',
+      'tr-TR': 'tr',
+      'pl-PL': 'pl',
+      'nl-NL': 'nl',
+      'sv-SE': 'sv',
+      'da-DK': 'da',
+      'no-NO': 'no',
+      'fi-FI': 'fi',
+      'hu-HU': 'hu',
+      'cs-CZ': 'cs',
+      'sk-SK': 'sk',
+      'ro-RO': 'ro',
+      'bg-BG': 'bg',
+      'hr-HR': 'hr',
+      'sr-RS': 'sr',
+      'sl-SI': 'sl',
+      'et-EE': 'et',
+      'lv-LV': 'lv',
+      'lt-LT': 'lt',
+      'uk-UA': 'uk',
+      'be-BY': 'be',
+      'el-GR': 'el',
+      'he-IL': 'he',
+      'th-TH': 'th',
+      'vi-VN': 'vi',
+      'id-ID': 'id',
+      'ms-MY': 'ms',
+      'tl-PH': 'tl',
+      'sw-SZ': 'sw',
+      'am-ET': 'am',
+      'zu-ZA': 'zu',
+      'xh-ZA': 'xh',
+      'af-ZA': 'af',
+      'sq-AL': 'sq',
+      'eu-ES': 'eu',
+      'ca-ES': 'ca',
+      'gl-ES': 'gl',
+      'cy-GB': 'cy',
+      'ga-IE': 'ga',
+      'mt-MT': 'mt',
+      'is-IS': 'is',
+      'fo-FO': 'fo',
+      'kk-KZ': 'kk',
+      'ky-KG': 'ky',
+      'uz-UZ': 'uz',
+      'tg-TJ': 'tg',
+      'mn-MN': 'mn',
+      'ka-GE': 'ka',
+      'hy-AM': 'hy',
+      'az-AZ': 'az',
+      'ne-NP': 'ne',
+      'si-LK': 'si',
+      'my-MM': 'my',
+      'km-KH': 'km',
+      'lo-LA': 'lo',
+      'dz-BT': 'dz',
+      'bo-CN': 'bo',
+      'gu-IN': 'gu',
+      'pa-IN': 'pa',
+      'te-IN': 'te',
+      'kn-IN': 'kn',
+      'ml-IN': 'ml',
+      'ta-LK': 'ta',
+      'or-IN': 'or',
+      'as-IN': 'as',
+      'mr-IN': 'mr'
+    }
+    
+    return languageMap[code] || code.split('-')[0]
   }
 
   const handleTranslate = async () => {
@@ -74,22 +167,78 @@ const TranslatorApp = ({ onClose }) => {
     }
 
     setIsTranslating(true)
+    setError('')
     
     try {
-      const response = await fetch(
-        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
-          inputText,
-        )}&langpair=${selectedLanguageFrom}|${selectedLanguageTo}`,
-      )
+      const fromLang = convertLanguageCode(selectedLanguageFrom)
+      const toLang = convertLanguageCode(selectedLanguageTo)
+      
+      // First try with MyMemory API
+      const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
+        inputText.trim()
+      )}&langpair=${fromLang}|${toLang}`
 
+      console.log('Translation request:', { fromLang, toLang, text: inputText.trim() })
+
+      const response = await fetch(myMemoryUrl)
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
       const data = await response.json()
-      setTranslatedText(data.responseData.translatedText)
+      
+      console.log('Translation response:', data)
+      
+      if (data.responseStatus === 200 && data.responseData) {
+        const translation = data.responseData.translatedText
+        
+        // Check if translation is valid (not just returning the same text)
+        if (translation && translation.toLowerCase() !== inputText.toLowerCase()) {
+          setTranslatedText(translation)
+        } else {
+          // Fallback: Try with LibreTranslate API if available
+          await tryLibreTranslate(fromLang, toLang, inputText.trim())
+        }
+      } else {
+        throw new Error(data.responseDetails || 'Translation failed')
+      }
     } catch (error) {
       console.error('Translation error:', error)
-      setTranslatedText('Translation failed. Please try again.')
+      setError('Translation failed. Please try again or check your internet connection.')
+      setTranslatedText('')
     } finally {
       setIsTranslating(false)
     }
+  }
+
+  const tryLibreTranslate = async (fromLang, toLang, text) => {
+    try {
+      // Alternative translation service (you can add more fallbacks here)
+      const response = await fetch('https://libretranslate.de/translate', {
+        method: 'POST',
+        body: JSON.stringify({
+          q: text,
+          source: fromLang,
+          target: toLang,
+          format: 'text'
+        }),
+        headers: { 'Content-Type': 'application/json' }
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.translatedText) {
+          setTranslatedText(data.translatedText)
+          return
+        }
+      }
+    } catch (error) {
+      console.error('LibreTranslate fallback failed:', error)
+    }
+    
+    // If all else fails, show a helpful message
+    setTranslatedText(`Translation unavailable for ${languages[selectedLanguageFrom]} → ${languages[selectedLanguageTo]}. Please try a different language pair.`)
   }
 
   const handleKeyDown = (e) => {
@@ -99,14 +248,20 @@ const TranslatorApp = ({ onClose }) => {
     }
   }
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text)
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      // You could add a toast notification here
+    } catch (error) {
+      console.error('Failed to copy text:', error)
+    }
   }
 
   const clearText = () => {
     setInputText('')
     setTranslatedText('')
     setCharCount(0)
+    setError('')
   }
 
   return (
@@ -178,6 +333,13 @@ const TranslatorApp = ({ onClose }) => {
           </div>
         )}
 
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+            <p className="text-red-400 text-sm">{error}</p>
+          </div>
+        )}
+
         {/* Input/Output Section */}
         <div className="flex-1 flex flex-col space-y-4">
           <div className="relative">
@@ -226,7 +388,7 @@ const TranslatorApp = ({ onClose }) => {
               placeholder="Translation will appear here..."
               readOnly
             />
-            {translatedText && (
+            {translatedText && !error && (
               <button
                 className="absolute bottom-3 right-3 text-gray-500 hover:text-emerald-400 transition-colors duration-150"
                 onClick={() => copyToClipboard(translatedText)}

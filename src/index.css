@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Righteous&family=Russo+One&family=Shojumaru&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@100..900&family=Righteous&family=Russo+One&family:Shojumaru&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,13 +9,83 @@
   padding: 0;
   box-sizing: border-box;
   outline: none;
-  font-family: 'Russo One', sans-serif;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .language {
-  @apply text-sm sm:text-lg text-right uppercase cursor-pointer;
+  @apply text-sm sm:text-base lg:text-lg font-medium text-gray-700 uppercase cursor-pointer 
+         px-4 py-2 rounded-lg transition-all duration-200 hover:bg-white/20 
+         active:scale-95 select-none;
 }
 
 .textarea {
-  @apply w-full h-48 max-[392px]:h-44 max-[392px]:text-sm resize-none bg-[#151515] shadow-md shadow-black rounded-lg px-4 py-2 font-righteous font-light leading-5;
+  @apply w-full h-32 sm:h-40 lg:h-48 resize-none bg-gray-800/50 backdrop-blur-sm 
+         border border-gray-600/30 rounded-xl px-4 py-3 text-gray-100 
+         placeholder-gray-400 font-normal leading-relaxed text-sm sm:text-base
+         focus:border-emerald-400/50 focus:ring-2 focus:ring-emerald-400/20 
+         transition-all duration-200;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700
+         text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl
+         transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200;
+}
+
+.btn-icon {
+  @apply w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700
+         rounded-full text-white flex justify-center items-center shadow-lg hover:shadow-xl
+         transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200;
 }

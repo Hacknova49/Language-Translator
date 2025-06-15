@@ -6,8 +6,8 @@ const App = () => {
   const [showTranslatorApp, setShowTranslatorApp] = useState(false)
 
   return (
-    <div className="w-full h-screen bg-gradient-to-l from-[#b6f492] to-[#338b93] flex justify-center items-center">
-      <div className="w-[90%] max-w-lg max-[392px]:h-[90%] sm:h-auto bg-[#2d2d2d] rounded-xl shadow-2xl shadow-gray-800 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 flex justify-center items-center p-4">
+      <div className="w-full max-w-md lg:max-w-lg h-[90vh] max-h-[800px] bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 flex flex-col overflow-hidden">
         {showTranslatorApp ? (
           <TranslatorApp onClose={() => setShowTranslatorApp(false)} />
         ) : (

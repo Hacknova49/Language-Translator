@@ -49,7 +49,6 @@ const TranslatorApp = ({ onClose }) => {
     setSelectedLanguageFrom(selectedLanguageTo)
     setSelectedLanguageTo(temp)
     
-    // Also swap the text content
     const tempText = inputText
     setInputText(translatedText)
     setTranslatedText(tempText)
@@ -62,7 +61,6 @@ const TranslatorApp = ({ onClose }) => {
       setInputText(value)
       setCharCount(value.length)
       
-      // Clear translated text when input changes
       if (translatedText) {
         setTranslatedText('')
       }
@@ -113,42 +111,42 @@ const TranslatorApp = ({ onClose }) => {
 
   return (
     <div className="w-full h-full flex flex-col animate-slide-up">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
+      {/* Clean Header */}
+      <div className="flex items-center justify-between p-4 border-b border-gray-700/30">
         <h2 className="text-lg font-semibold text-white">Translator</h2>
         <button 
-          className="w-8 h-8 rounded-full bg-gray-700/50 hover:bg-gray-600/50 flex items-center justify-center transition-colors"
+          className="w-8 h-8 rounded-full hover:bg-gray-700/50 flex items-center justify-center transition-colors duration-150"
           onClick={onClose}
         >
-          <i className="fas fa-times text-gray-300"></i>
+          <i className="fas fa-times text-gray-400"></i>
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col p-4 space-y-4 overflow-hidden">
+      <div className="flex-1 flex flex-col p-4 space-y-4">
         {/* Language Selector */}
         <div className="glass-effect rounded-xl p-4 flex items-center justify-between">
           <button 
             className="language flex-1 text-left"
             onClick={() => handleLanguageClick('from')}
           >
-            <div className="text-xs text-gray-400 mb-1">From</div>
+            <div className="text-xs text-gray-500 mb-1">From</div>
             <div className="text-emerald-400 font-medium">
               {languages[selectedLanguageFrom] || 'English'}
             </div>
           </button>
           
           <button
-            className="mx-4 w-10 h-10 rounded-full bg-gray-700/50 hover:bg-gray-600/50 flex items-center justify-center transition-all duration-200 hover:rotate-180"
+            className="mx-4 w-10 h-10 rounded-full hover:bg-gray-700/50 flex items-center justify-center transition-colors duration-150"
             onClick={handleSwapLanguages}
           >
-            <i className="fas fa-exchange-alt text-gray-300"></i>
+            <i className="fas fa-exchange-alt text-gray-400"></i>
           </button>
           
           <button 
             className="language flex-1 text-right"
             onClick={() => handleLanguageClick('to')}
           >
-            <div className="text-xs text-gray-400 mb-1">To</div>
+            <div className="text-xs text-gray-500 mb-1">To</div>
             <div className="text-emerald-400 font-medium">
               {languages[selectedLanguageTo] || 'Spanish'}
             </div>
@@ -158,10 +156,10 @@ const TranslatorApp = ({ onClose }) => {
         {/* Language Dropdown */}
         {showLanguages && (
           <div
-            className="absolute inset-4 top-32 bg-gray-800/95 backdrop-blur-xl rounded-xl border border-gray-600/50 z-20 flex flex-col animate-fade-in"
+            className="absolute inset-4 top-32 bg-gray-800/95 backdrop-blur-sm rounded-xl border border-gray-600/30 z-20 flex flex-col animate-fade-in"
             ref={dropdownRef}
           >
-            <div className="p-4 border-b border-gray-600/50">
+            <div className="p-4 border-b border-gray-600/30">
               <h3 className="text-white font-medium">
                 Select {currentLanguageSelection === 'from' ? 'source' : 'target'} language
               </h3>
@@ -169,7 +167,7 @@ const TranslatorApp = ({ onClose }) => {
             <div className="flex-1 overflow-y-auto scrollbar-hide p-2">
               {Object.entries(languages).map(([code, name]) => (
                 <button
-                  className="w-full text-left px-3 py-2 text-gray-300 hover:bg-emerald-500/20 hover:text-emerald-400 rounded-lg transition-colors"
+                  className="w-full text-left px-3 py-2 text-gray-300 hover:bg-emerald-500/10 hover:text-emerald-400 rounded-lg transition-colors duration-150"
                   key={code}
                   onClick={() => handleLanguagesSelect(code)}
                 >
@@ -180,7 +178,7 @@ const TranslatorApp = ({ onClose }) => {
           </div>
         )}
 
-        {/* Input Section */}
+        {/* Input/Output Section */}
         <div className="flex-1 flex flex-col space-y-4">
           <div className="relative">
             <textarea
@@ -191,12 +189,12 @@ const TranslatorApp = ({ onClose }) => {
               placeholder="Enter text to translate..."
             />
             <div className="absolute bottom-3 right-3 flex items-center space-x-2">
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-500">
                 {charCount}/{maxChars}
               </span>
               {inputText && (
                 <button
-                  className="text-gray-400 hover:text-gray-300 transition-colors"
+                  className="text-gray-500 hover:text-gray-400 transition-colors duration-150"
                   onClick={clearText}
                 >
                   <i className="fas fa-times text-sm"></i>
@@ -230,7 +228,7 @@ const TranslatorApp = ({ onClose }) => {
             />
             {translatedText && (
               <button
-                className="absolute bottom-3 right-3 text-gray-400 hover:text-emerald-400 transition-colors"
+                className="absolute bottom-3 right-3 text-gray-500 hover:text-emerald-400 transition-colors duration-150"
                 onClick={() => copyToClipboard(translatedText)}
                 title="Copy translation"
               >

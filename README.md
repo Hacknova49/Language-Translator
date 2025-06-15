@@ -5,8 +5,8 @@ A lightweight and intuitive web-based language translator built with **React**, 
 
 🔗 **Live Demo**: [https://ornate-biscotti-54a0f8.netlify.app/](https://ornate-biscotti-54a0f8.netlify.app/)
 
-![UI Screenshot 1](./screenshots/screenshot1_20250615_013919.png)
-![UI Screenshot 2](./screenshots/screenshot2_20250615_013919.png)
+![Screenshot 1](./screenshots/screenshot1.png)
+![Screenshot 1](./screenshots/screenshot2.png)
 
 ---
 

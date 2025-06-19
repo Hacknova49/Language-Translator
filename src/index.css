@@ -60,7 +60,7 @@ body {
 /* Enhanced Components */
 .language {
   @apply relative text-sm font-medium text-gray-200 cursor-pointer px-4 py-3 rounded-xl
-         transition-all duration-300 select-none group overflow-hidden;
+         transition-all duration-300 select-none overflow-hidden;
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -108,7 +108,7 @@ body {
 /* Enhanced Buttons */
 .btn-primary {
   @apply font-semibold px-8 py-4 rounded-2xl transition-all duration-300 
-         text-white relative overflow-hidden group;
+         text-white relative overflow-hidden;
   background: linear-gradient(135deg, #10b981 0%, #06d6a0 50%, #059669 100%);
   box-shadow: 
     0 10px 30px rgba(16, 185, 129, 0.4),
@@ -143,7 +143,7 @@ body {
 
 .btn-icon {
   @apply w-14 h-14 rounded-2xl text-white flex justify-center items-center 
-         transition-all duration-300 relative overflow-hidden group;
+         transition-all duration-300 relative overflow-hidden;
   background: linear-gradient(135deg, #10b981 0%, #06d6a0 100%);
   box-shadow: 
     0 8px 25px rgba(16, 185, 129, 0.4),
@@ -163,7 +163,7 @@ body {
 
 .btn-swap {
   @apply w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300
-         relative overflow-hidden group;
+         relative overflow-hidden;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);

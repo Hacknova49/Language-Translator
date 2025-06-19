@@ -14,6 +14,9 @@ const App = () => {
     return () => clearTimeout(timer)
   }, [])
 
+  // Extract SVG data URI to avoid JSX parsing issues
+  const gridPatternUrl = "data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Enhanced Animated Background */}
@@ -26,7 +29,7 @@ const App = () => {
         <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-gradient-to-r from-blue-400/10 to-purple-600/10 rounded-full mix-blend-multiply filter blur-xl animate-float" style={{ animationDelay: '4s' }}></div>
         
         {/* Grid Pattern Overlay */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.02"%3E%3Ccircle cx="30" cy="30" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+        <div className={`absolute inset-0 opacity-40`} style={{ backgroundImage: `url('${gridPatternUrl}')` }}></div>
       </div>
 
       {/* Main Content Container */}

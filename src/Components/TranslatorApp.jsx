@@ -290,7 +290,7 @@ const TranslatorApp = ({ onClose }) => {
         <div className="glass-card rounded-2xl p-5">
           <div className="flex items-center justify-between">
             <button 
-              className="language flex-1 text-left group"
+              className="language group flex-1 text-left"
               onClick={() => handleLanguageClick('from')}
             >
               <div className="text-xs text-gray-500 mb-2 font-medium uppercase tracking-wider">From</div>
@@ -308,7 +308,7 @@ const TranslatorApp = ({ onClose }) => {
             </button>
             
             <button 
-              className="language flex-1 text-right group"
+              className="language group flex-1 text-right"
               onClick={() => handleLanguageClick('to')}
             >
               <div className="text-xs text-gray-500 mb-2 font-medium uppercase tracking-wider">To</div>
@@ -411,7 +411,7 @@ const TranslatorApp = ({ onClose }) => {
           {/* Enhanced Translate Button */}
           <div className="flex justify-center">
             <button
-              className="btn-icon"
+              className="btn-icon group"
               onClick={handleTranslate}
               disabled={!inputText.trim() || isTranslating}
             >

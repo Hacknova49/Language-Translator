@@ -3,10 +3,10 @@
 
 A lightweight and intuitive web-based language translator built with **React**, **Vite**, and **Tailwind CSS**. Powered by the **MyMemory Translation API**, this app allows users to seamlessly translate text between multiple languages in both directions.
 
-🔗 **Live Demo**: [https://ornate-biscotti-54a0f8.netlify.app/](https://ornate-biscotti-54a0f8.netlify.app/)
+🔗 **Live Demo**: [https://ornate-biscotti-54a0f8.netlify.app/]([https://ornate-biscotti-54a0f8.netlify.app/](https://scintillating-frangollo-770008.netlify.app/))
 
-![Screenshot 1](./screenshots/screenshot1.png)
 ![Screenshot 1](./screenshots/screenshot2.png)
+![Screenshot 1](./screenshots/screenshot1.png)
 
 ---
 

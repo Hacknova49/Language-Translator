@@ -33,8 +33,14 @@ const App = () => {
       </div>
 
       {/* Main Content Container */}
-      <div className="relative z-10 min-h-screen flex justify-center items-center p-4">
-        <div className={`w-full max-w-md lg:max-w-lg h-[90vh] max-h-[800px] glass-card rounded-3xl overflow-hidden transition-all duration-700 ${isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+      <div className="relative z-10 min-h-screen flex justify-center items-center p-2 sm:p-4">
+        <div
+          className={`w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 
+            h-auto min-h-[60vh] sm:min-h-[70vh] md:min-h-[75vh] 
+            glass-card rounded-3xl overflow-hidden 
+            transition-all duration-700 
+            ${isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+        >
           {showTranslatorApp ? (
             <TranslatorApp onClose={() => setShowTranslatorApp(false)} />
           ) : (
